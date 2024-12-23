@@ -1,20 +1,25 @@
-import { Col } from "react-bootstrap";
+import React from 'react';
 
-export const ProjectCard = ({ title, description, imgUrl, liveUrl, codeUrl }) => {
+const ProjectCard = (project) => {
+  const { title, img, description, siteLink, codeLink } = project;
+
+  console.log(project)
   return (
-    <Col size={12} sm={6} md={4}>
+    <div>
       <div className="proj-imgbx">
-        <img src={imgUrl} c alt="" />
+        <img src={img} style={{ height: "180px" }} alt="" />
         <div className="proj-txtx">
           <h4>{title}</h4>
           <span>{description}</span>
           <br />
           <div className="project-url-container">
-            <a className="project-url" href={liveUrl} target="_blank" rel="noopener noreferrer">Visit Site</a>
-            <a className="project-url" href={codeUrl} target="_blank" rel="noopener noreferrer">Source Code</a>
+            <a className="project-url" href={siteLink} target="_blank" rel="noopener noreferrer">Visit Site</a>
+            <a className="project-url" href={codeLink} target="_blank" rel="noopener noreferrer">Source Code</a>
           </div>
         </div>
       </div>
-    </Col>
-  )
-}
+    </div>
+  );
+};
+
+export default ProjectCard;

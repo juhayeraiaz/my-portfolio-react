@@ -47,7 +47,6 @@ export const Banner = () => {
       setIndex(prevIndex => prevIndex + 1);
     }
   }
-  console.log(index)
   return (
     <section className="banner" id="home">
       <Container>

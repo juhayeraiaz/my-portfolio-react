@@ -1,61 +1,73 @@
 import { Container, Row, Col, Tab } from "react-bootstrap";
-import { ProjectCard } from "./ProjectCard";
-import projImg1 from "../assets/img/projects/Creative-Agency.png";
-import projImg2 from "../assets/img/projects/Asterisk-Travels.png";
-import projImg3 from "../assets/img/projects/drones-world.png";
-import projImg4 from "../assets/img/projects/Optifine-Health-care.png";
-import projImg5 from "../assets/img/projects/Amazing-Football.png";
-import spaceImg from "../assets/img/projects/space.png";
 import colorSharp2 from "../assets/img/color-sharp2.png";
 import 'animate.css';
 import TrackVisibility from 'react-on-screen';
+import { useEffect, useState } from "react";
+import Loading from "./Loading";
+import ProjectCard from "./ProjectCard";
+import Carousel from 'react-multi-carousel';
+import 'react-multi-carousel/lib/styles.css';
 
 export const Projects = () => {
+  const [projects, setProjects] = useState([]);
+  const [loading, setLoading] = useState(true); // State for loading
+  const [error, setError] = useState(null); // State for error
+  const [currentPage, setCurrentPage] = useState(1); // State for pagination
+  const itemsPerPage = 6; // Number of items per page for desktop view
 
-  const projects = [
-    {
-      title: "Stella - Space For Everyone",
-      description: "Stella website.",
-      imgUrl: spaceImg,
-      liveUrl: "https://eliushhimel.com/Space",
-      codeUrl: "https://github.com/EliusHHimel/space"
+  useEffect(() => {
+    fetch('https://portfolio-server-raue.onrender.com/projects', {
+      method: 'GET'
+    }).then(res => res.json())
+      .then(data => {
+        setProjects(data)
+        setLoading(false); // Set loading to false when data is fetched
+      })
+      .catch((error) => {
+        console.error("Error fetching projects:", error);
+        setError(error); // Set error state if there's an error
+        setLoading(false); // Set loading to false when there's an error
+      });
+  }, [])
+
+  if (loading) {
+    // Render loading animation while data is being fetched
+    return (
+      <Loading></Loading>
+    );
+  }
+
+  if (error) {
+    // Render error message if there's an error
+    return (
+      <div className="text-center py-6 px-2 md:px-5 lg:px-10">
+        <p className="text-red-500">Error fetching data from the server. Please try again later.</p>
+      </div>
+    );
+  }
+
+  const responsive = {
+    desktop: {
+      breakpoint: { max: 3000, min: 1024 },
+      items: 3
     },
-    {
-      title: "Creative Agency",
-      description: "Creative agency website.",
-      imgUrl: projImg1,
-      liveUrl: "https://creative-agency-a1a4f.firebaseapp.com/",
-      codeUrl: "https://github.com/EliusHHimel/creative-agency"
+    tablet: {
+      breakpoint: { max: 1024, min: 464 },
+      items: 2
     },
-    {
-      title: "Asterisk Travels",
-      description: "Travel agency website.",
-      imgUrl: projImg2,
-      liveUrl: "https://asterisk-travels.web.app/",
-      codeUrl: "https://github.com/EliusHHimel/asterisk-travels"
-    },
-    {
-      title: "Drones World",
-      description: "Drone Reseller website.",
-      imgUrl: projImg3,
-      liveUrl: "https://drones-world.eliushhimel.com/",
-      codeUrl: "https://github.com/EliusHHimel/drones-world"
-    },
-    {
-      title: "Optifine Helth Care",
-      description: "Private healthcare organization website.",
-      imgUrl: projImg4,
-      liveUrl: "https://optifine-health.web.app/",
-      codeUrl: "https://github.com/EliusHHimel/optifine-health-care"
-    },
-    {
-      title: "Amazing Football",
-      description: "Football Event Organizer Website",
-      imgUrl: projImg5,
-      liveUrl: "https://football-hero.eliushhimel.com/",
-      codeUrl: "https://github.com/EliusHHimel/Football-Hero"
+    mobile: {
+      breakpoint: { max: 464, min: 0 },
+      items: 1
     }
-  ];
+  };
+
+  const indexOfLastItem = currentPage * itemsPerPage;
+  const indexOfFirstItem = indexOfLastItem - itemsPerPage;
+  const currentProjects = projects.slice(indexOfFirstItem, indexOfLastItem);
+
+  const paginate = (pageNumber) => setCurrentPage(pageNumber);
+
+  const totalPages = Math.ceil(projects.length / itemsPerPage);
 
   return (
     <section className="project" id="project">
@@ -68,38 +80,45 @@ export const Projects = () => {
                   <h2>Projects</h2>
                   <p>These are the most recent projects I've completed.</p>
                   <Tab.Container id="projects-tabs" defaultActiveKey="first">
-                    {/* <Nav variant="pills" className="nav-pills mb-5 justify-content-center align-items-center" id="pills-tab">
-                      <Nav.Item>
-                        <Nav.Link eventKey="first">Tab 1</Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link eventKey="second">Tab 2</Nav.Link>
-                      </Nav.Item>
-                      <Nav.Item>
-                        <Nav.Link eventKey="third">Tab 3</Nav.Link>
-                      </Nav.Item>
-                    </Nav> */}
                     <Tab.Content id="slideInUp" className={isVisible ? "" : ""}>
                       <Tab.Pane eventKey="first">
-                        <Row>
-                          {
-                            projects.map((project, index) => {
-                              return (
-                                <ProjectCard
-                                  key={index}
-                                  {...project}
-                                />
-                              )
-                            })
-                          }
-                        </Row>
+                        <div className="d-none d-md-block"> {/* Desktop view */}
+                          <Row>
+                            {
+                              currentProjects.map((project, index) => {
+                                return (
+                                  <Col md={4} key={index}>
+                                    <ProjectCard {...project} />
+                                  </Col>
+                                )
+                              })
+                            }
+                          </Row>
+                          <div className="pagination mt-4 d-flex justify-content-center gap-2"> {/* Pagination controls */}
+                            {[...Array(totalPages).keys()].map(page => (
+                              <button
+                                key={page}
+                                className={`pagination-btn px-3 py-2 rounded ${page + 1 === currentPage ? 'bg-primary text-white' : 'bg-light text-dark'}`}
+                                style={{ border: 'none', cursor: 'pointer', transition: 'background-color 0.3s ease', fontSize: '1rem' }}
+                                onClick={() => paginate(page + 1)}
+                              >
+                                {page + 1}
+                              </button>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="d-block d-md-none"> {/* Mobile/Tablet view */}
+                          <Carousel responsive={responsive} infinite={true} autoPlay={true} autoPlaySpeed={3000}>
+                            {
+                              projects.map((project, index) => {
+                                return (
+                                  <ProjectCard key={index} {...project} />
+                                )
+                              })
+                            }
+                          </Carousel>
+                        </div>
                       </Tab.Pane>
-                      {/* <Tab.Pane eventKey="section">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque quam, quod neque provident velit, rem explicabo excepturi id illo molestiae blanditiis, eligendi dicta officiis asperiores delectus quasi inventore debitis quo.</p>
-                      </Tab.Pane>
-                      <Tab.Pane eventKey="third">
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Cumque quam, quod neque provident velit, rem explicabo excepturi id illo molestiae blanditiis, eligendi dicta officiis asperiores delectus quasi inventore debitis quo.</p>
-                      </Tab.Pane> */}
                     </Tab.Content>
                   </Tab.Container>
                 </div>}

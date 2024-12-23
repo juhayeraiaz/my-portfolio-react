@@ -7,6 +7,7 @@ import { Projects } from "./components/Projects";
 import { Contact } from "./components/Contact";
 import { Footer } from "./components/Footer";
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import AddProjects from './components/AddProjects';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
               <Footer />
             </>
           } />
+          <Route path='/addprojects' element={<AddProjects></AddProjects>}></Route>
         </Routes>
       </BrowserRouter>
     </div>
