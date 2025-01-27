@@ -33,7 +33,11 @@ export const Projects = () => {
   if (loading) {
     // Render loading animation while data is being fetched
     return (
-      <Loading></Loading>
+      <div>
+        <p className="text-center m-4 text-white d-block">Please wait for few seconds the is gtting fetched</p>
+        <Loading></Loading>
+      </div>
+
     );
   }
 
@@ -82,7 +86,7 @@ export const Projects = () => {
                   <Tab.Container id="projects-tabs" defaultActiveKey="first">
                     <Tab.Content id="slideInUp" className={isVisible ? "" : ""}>
                       <Tab.Pane eventKey="first">
-                        <div className="d-none d-md-block"> {/* Desktop view */}
+                        <div className="d-none d-md-block" style={{ height: "496px" }}> {/* Desktop view */}
                           <Row>
                             {
                               currentProjects.map((project, index) => {

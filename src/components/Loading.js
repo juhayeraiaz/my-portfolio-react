@@ -2,7 +2,7 @@ import React from 'react';
 import Spinner from 'react-bootstrap/Spinner';
 
 function Loading() {
-    return <Spinner animation="grow" />;
+    return <div className='text-center'><Spinner size='lg' animation="grow" /></div>;
 }
 
 export default Loading;
