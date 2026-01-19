@@ -34,7 +34,7 @@ export const Projects = () => {
     // Render loading animation while data is being fetched
     return (
       <div>
-        <p className="text-center m-4 text-white d-block">Please wait for few seconds the is gtting fetched</p>
+        <p className="text-center m-4 text-white d-block">Please wait for few seconds, It's hosted in a free server so it takes time to load</p>
         <Loading></Loading>
       </div>
 
