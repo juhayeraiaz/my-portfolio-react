@@ -1,0 +1,159 @@
+.repos__grid {
+  display: grid;
+  gap: 1rem;
+}
+
+.repos__grid > li {
+  display: flex;
+}
+
+.repo {
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  padding: 1.5rem;
+  overflow: hidden;
+}
+
+.repo:hover {
+  border-color: var(--border-strong);
+  transform: translateY(-3px);
+}
+
+.repo__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.repo__icon {
+  width: 28px;
+  height: 28px;
+  color: var(--accent);
+}
+
+.repo__demo {
+  position: relative;
+  z-index: 1;
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  color: var(--text-subtle);
+  transition:
+    color var(--duration) ease,
+    background-color var(--duration) ease;
+}
+
+.repo__demo:hover {
+  color: var(--accent);
+  background: var(--accent-soft);
+}
+
+.repo__name {
+  margin-top: 1rem;
+  font-family: var(--font-mono);
+  font-size: 1.02rem;
+  font-weight: 600;
+  letter-spacing: -0.01em;
+  word-break: break-word;
+}
+
+/* Stretched link: the whole card opens the repository. */
+.repo__name a::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+}
+
+.repo__name a:hover {
+  color: var(--accent);
+}
+
+.repo__name a:focus-visible {
+  outline: none;
+}
+
+.repo:has(.repo__name a:focus-visible) {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+}
+
+.repo__description {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.repo__topics {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.35rem;
+  margin-top: 0.9rem;
+}
+
+.repo__footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.5rem 1rem;
+  margin-top: auto;
+  padding-top: 1.25rem;
+  color: var(--text-subtle);
+  font-size: 0.75rem;
+}
+
+.repo__footer > span {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+}
+
+.repo__lang {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+}
+
+.repo__updated {
+  margin-left: auto;
+}
+
+.repos__fallback {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  padding: 1.5rem;
+  color: var(--text-muted);
+}
+
+.repos__fallback svg {
+  flex-shrink: 0;
+  width: 26px;
+  height: 26px;
+}
+
+.repos__more {
+  display: flex;
+  justify-content: center;
+  margin-top: 2.5rem;
+}
+
+@media (min-width: 680px) {
+  .repos__grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+@media (min-width: 1024px) {
+  .repos__grid {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+}

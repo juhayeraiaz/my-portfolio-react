@@ -1,0 +1,88 @@
+<!doctype html>
+<html lang="en" data-theme="dark">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+
+    <title>Juhayer Aiaz — Software Engineer &amp; Full-Stack Web Developer</title>
+    <meta
+      name="description"
+      content="Juhayer Aiaz is a software engineer and full-stack web developer building fast, accessible web applications with React, Node.js, Express and MongoDB."
+    />
+    <meta name="author" content="Juhayer Aiaz" />
+    <link rel="canonical" href="https://juhayeraiaz.com/" />
+
+    <!-- Theme -->
+    <meta name="color-scheme" content="dark light" />
+    <meta name="theme-color" content="#07090c" media="(prefers-color-scheme: dark)" />
+    <meta name="theme-color" content="#f7f9fb" media="(prefers-color-scheme: light)" />
+
+    <!-- Icons & PWA -->
+    <link rel="icon" type="image/png" sizes="64x64" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="manifest" href="/manifest.webmanifest" />
+
+    <!-- Open Graph / social -->
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Juhayer Aiaz" />
+    <meta property="og:url" content="https://juhayeraiaz.com/" />
+    <meta property="og:title" content="Juhayer Aiaz — Software Engineer &amp; Full-Stack Web Developer" />
+    <meta
+      property="og:description"
+      content="Building fast, accessible web applications with React, Node.js, Express and MongoDB."
+    />
+    <meta property="og:image" content="https://juhayeraiaz.com/og-image.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:image:alt" content="Juhayer Aiaz — Software Engineer &amp; Full-Stack Web Developer" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Juhayer Aiaz — Software Engineer &amp; Full-Stack Web Developer" />
+    <meta
+      name="twitter:description"
+      content="Building fast, accessible web applications with React, Node.js, Express and MongoDB."
+    />
+    <meta name="twitter:image" content="https://juhayeraiaz.com/og-image.png" />
+
+    <script type="application/ld+json">
+      {
+        "@context": "https://schema.org",
+        "@type": "Person",
+        "name": "Juhayer Aiaz",
+        "url": "https://juhayeraiaz.com/",
+        "image": "https://juhayeraiaz.com/icon-512.png",
+        "jobTitle": "Software Engineer",
+        "email": "mailto:aiazj97@gmail.com",
+        "knowsAbout": ["React", "JavaScript", "Node.js", "Express", "MongoDB", "Firebase", "Tailwind CSS", "Web Development"],
+        "sameAs": [
+          "https://github.com/juhayeraiaz",
+          "https://www.linkedin.com/in/juhayer-aiaz/",
+          "https://www.facebook.com/Juhayer.aiaz0/",
+          "https://www.instagram.com/juhayer.aiaz/"
+        ]
+      }
+    </script>
+
+    <!-- Apply the saved / preferred theme before first paint to avoid a flash. -->
+    <script>
+      (function () {
+        var theme = 'dark';
+        try {
+          var saved = localStorage.getItem('theme');
+          if (saved === 'light' || saved === 'dark') theme = saved;
+          else if (window.matchMedia('(prefers-color-scheme: light)').matches) theme = 'light';
+        } catch (e) {}
+        document.documentElement.setAttribute('data-theme', theme);
+      })();
+    </script>
+  </head>
+  <body>
+    <noscript>
+      <p style="padding: 2rem; font-family: system-ui, sans-serif">
+        This site needs JavaScript. You can reach Juhayer at
+        <a href="mailto:aiazj97@gmail.com">aiazj97@gmail.com</a>.
+      </p>
+    </noscript>
+    <div id="root"></div>
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>

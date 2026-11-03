@@ -1,0 +1,45 @@
+.logo {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.7rem;
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+}
+
+.logo__mark {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 38px;
+  height: 38px;
+  border-radius: 11px;
+  background: var(--bg-elevated);
+  color: var(--text);
+  font-size: 0.95rem;
+  letter-spacing: -0.04em;
+  isolation: isolate;
+}
+
+/* Gradient ring around the monogram. */
+.logo__mark::before {
+  content: '';
+  position: absolute;
+  inset: -1.5px;
+  z-index: -1;
+  border-radius: 12px;
+  background: var(--gradient);
+}
+
+.logo__mark::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: 10.5px;
+  background: var(--bg-elevated);
+}
+
+.logo__name {
+  font-size: 1.05rem;
+}
