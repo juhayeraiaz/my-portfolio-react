@@ -1,0 +1,155 @@
+.admin {
+  min-height: 100vh;
+  padding: 2rem var(--gutter) 4rem;
+  background:
+    radial-gradient(ellipse 60% 40% at 50% 0%, var(--glow), transparent 70%),
+    var(--bg);
+}
+
+.admin__inner {
+  width: min(760px, 100%);
+  margin-inline: auto;
+}
+
+.admin__header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 2rem;
+}
+
+.admin__back {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  color: var(--text-muted);
+  font-size: 0.9rem;
+}
+
+.admin__back:hover {
+  color: var(--text);
+}
+
+.admin__card {
+  padding: clamp(1.5rem, 4vw, 2.5rem);
+  background: var(--bg-elevated);
+}
+
+.admin__title {
+  font-size: 2rem;
+}
+
+.admin__subtitle {
+  margin-top: 0.5rem;
+  color: var(--text-muted);
+  font-size: 0.925rem;
+}
+
+.admin__subtitle code {
+  padding: 0.1rem 0.35rem;
+  border-radius: 6px;
+  background: var(--surface-strong);
+  font-family: var(--font-mono);
+  font-size: 0.85em;
+}
+
+.admin__form {
+  display: grid;
+  gap: 1.25rem;
+  margin-top: 2rem;
+}
+
+.admin__required {
+  color: var(--danger);
+}
+
+.admin__row {
+  display: grid;
+  gap: 1.25rem;
+}
+
+.admin__images {
+  display: grid;
+  gap: 0.75rem;
+  padding: 0;
+  border: 0;
+}
+
+.admin__images legend {
+  margin-bottom: 0.5rem;
+}
+
+.admin-image__drop {
+  display: grid;
+  place-items: center;
+  gap: 0.5rem;
+  aspect-ratio: 16 / 10;
+  overflow: hidden;
+  border: 1px dashed var(--border-strong);
+  border-radius: 12px;
+  background: var(--bg);
+  color: var(--text-subtle);
+  font-size: 0.85rem;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color var(--duration) ease;
+}
+
+.admin-image__drop:hover,
+.admin-image input:focus-visible + .admin-image__drop {
+  border-color: var(--accent);
+}
+
+.admin-image--error .admin-image__drop {
+  border-color: var(--danger);
+}
+
+.admin-image__drop svg {
+  width: 26px;
+  height: 26px;
+}
+
+.admin-image__drop img {
+  grid-area: 1 / 1;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: top;
+}
+
+.admin-image__drop:has(img) span {
+  display: none;
+}
+
+.admin__result {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.85rem 1rem;
+  border-radius: 12px;
+  font-size: 0.925rem;
+}
+
+.admin__result--success {
+  background: color-mix(in srgb, var(--success) 12%, transparent);
+  color: var(--success);
+}
+
+.admin__result--error {
+  background: color-mix(in srgb, var(--danger) 10%, transparent);
+  color: var(--danger);
+}
+
+@media (min-width: 640px) {
+  .admin__images {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .admin__images legend {
+    grid-column: 1 / -1;
+  }
+
+  .admin__row {
+    grid-template-columns: 1fr 1fr;
+  }
+}

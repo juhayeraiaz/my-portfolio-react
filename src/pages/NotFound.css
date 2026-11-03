@@ -1,0 +1,35 @@
+.not-found {
+  display: grid;
+  place-items: center;
+  min-height: 100vh;
+  min-height: 100dvh;
+  padding: var(--gutter);
+  background:
+    radial-gradient(ellipse 60% 50% at 50% 0%, var(--glow), transparent 70%),
+    var(--bg);
+  text-align: center;
+}
+
+.not-found__inner {
+  display: grid;
+  justify-items: center;
+  gap: 1rem;
+  max-width: 480px;
+}
+
+.not-found__code {
+  margin-top: 2rem;
+  font-size: clamp(5rem, 18vw, 8rem);
+  font-weight: 700;
+  line-height: 1;
+  letter-spacing: -0.06em;
+}
+
+.not-found h1 {
+  font-size: clamp(1.75rem, 4vw, 2.25rem);
+}
+
+.not-found__text {
+  margin-bottom: 1rem;
+  color: var(--text-muted);
+}

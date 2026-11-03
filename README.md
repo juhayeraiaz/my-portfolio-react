@@ -1,70 +1,82 @@
-# Getting Started with Create React App
+# Juhayer Aiaz — Portfolio
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+Personal portfolio of **Juhayer Aiaz**, software engineer and full-stack web developer. Live at **[juhayeraiaz.com](https://juhayeraiaz.com)**.
 
-## Available Scripts
+Built with React 19 and Vite, with no UI framework: the design system is a small set of CSS custom properties with first-class light and dark themes.
 
-In the project directory, you can run:
+## Features
 
-### `npm start`
+- **Polished, responsive UI.** An original design that works from 320px phones to wide desktops, with dark and light themes (follows the OS preference and remembers the choice) and View Transitions when switching.
+- **Command palette.** Press <kbd>⌘</kbd>/<kbd>Ctrl</kbd> + <kbd>K</kbd> (or <kbd>/</kbd>) to jump to any section, switch theme, copy the email address or open social profiles.
+- **Projects from the API.** Projects come from the portfolio API with:
+  - instant rendering from a local cache (stale-while-revalidate),
+  - skeleton loaders,
+  - a notice when the free-tier server is waking up,
+  - an error state with retry,
+  - a details dialog with a screenshot gallery.
+- **Live GitHub activity.** Recently updated public repositories are pulled from the GitHub API and cached for an hour. You can pin specific repos in the data file.
+- **Working contact form.** Validated with `react-hook-form` and sent over AJAX via [FormSubmit](https://formsubmit.co), with inline success and error states. It has a honeypot for spam and a copy-to-clipboard email button.
+- **Accessibility:**
+  - semantic landmarks and a skip link,
+  - visible focus styles,
+  - labelled controls and native `<dialog>` modals,
+  - scroll-spy `aria-current` in the navigation,
+  - full support for `prefers-reduced-motion`.
+- **SEO and sharing.** Descriptive meta tags, Open Graph and Twitter cards with a custom image, JSON-LD `Person` schema, sitemap, robots rules and a web app manifest.
+- **Performance.** Self-hosted variable fonts, lazy-loaded images, a vendor chunk for long-term caching, and the admin page code-split out of the main bundle.
+- **Quality checks.** ESLint, Vitest and Testing Library (unit and integration tests), plus a GitHub Actions workflow that runs lint, tests and the build on every push and pull request.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+## Getting started
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+Requires Node.js 20.19+ (see `.nvmrc`).
 
-### `npm test`
+```bash
+npm install
+```
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+```bash
+npm start
+```
 
-### `npm run build`
+The dev server runs at http://localhost:3000.
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+| Script             | What it does                                    |
+| ------------------ | ----------------------------------------------- |
+| `npm start`        | Start the dev server with hot reload            |
+| `npm run build`    | Production build into `build/`                  |
+| `npm run preview`  | Serve the production build locally              |
+| `npm test`         | Run tests in watch mode                         |
+| `npm run test:run` | Run tests once (CI)                             |
+| `npm run lint`     | Lint the codebase                               |
+| `npm run check`    | Lint, test and build: run this before you push |
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+## Editing content
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+All copy lives in **[`src/data/portfolio.js`](src/data/portfolio.js)**, so updating the site never requires touching components:
 
-### `npm run eject`
+- `profile`: name, rotating roles, summary, contact details, availability and an optional `resumeUrl`. To add a résumé, put a PDF in `public/` and set `resumeUrl: '/resume.pdf'`.
+- `about`, `services`, `skillGroups`: About section, the "What I do" cards and the skills toolkit.
+- `experience`: work history. The Experience section and its nav link appear automatically once this list has entries; the file documents the entry format.
+- `socials`, `pinnedRepos`: social links and (optionally) which GitHub repos to feature.
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+## Configuration
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+Copy `.env.example` to `.env.local` to override defaults:
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+| Variable             | Default                                     | Used by                                |
+| -------------------- | ------------------------------------------- | -------------------------------------- |
+| `VITE_API_URL`       | `https://portfolio-server-raue.onrender.com` | Projects section (`GET /projects`)     |
+| `VITE_ADMIN_API_URL` | `http://localhost:5000`                     | `/addprojects` admin page              |
+| `VITE_IMGBB_API_KEY` | none (required for the admin page)          | Screenshot uploads on `/addprojects`   |
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+### Adding projects
 
-## Learn More
+Run the API locally, set `VITE_IMGBB_API_KEY` in `.env.local`, then open http://localhost:3000/addprojects. Search engines are told not to index this page and `robots.txt` disallows it.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Deployment
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+`npm run build` outputs a static site to `build/`, the same folder Create React App used, so existing hosting settings keep working. The build also writes `build/404.html` as an SPA fallback, so deep links work on GitHub Pages, Netlify, Cloudflare Pages and similar hosts. `public/CNAME` keeps the custom domain for GitHub Pages.
 
-### Code Splitting
+## Tech stack
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
-
-### Analyzing the Bundle Size
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
-
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+React 19 · Vite · React Router · React Hook Form · React Icons · Vitest · Testing Library · ESLint
