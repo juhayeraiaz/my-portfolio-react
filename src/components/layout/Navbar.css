@@ -262,7 +262,7 @@
   }
 }
 
-@media (max-width: 399px) {
+@media (max-width: 359px) {
   .navbar .logo__name {
     display: none;
   }
