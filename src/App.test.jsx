@@ -244,3 +244,38 @@ describe('routing', () => {
     expect(await screen.findByRole('heading', { name: 'Add a project' })).toBeInTheDocument();
   });
 });
+
+describe('case studies', () => {
+  it('links each project card to its case study', async () => {
+    mockFetch();
+    renderAt('/');
+    const link = await screen.findByRole('link', { name: /case study of bikreta store/i });
+    expect(link).toHaveAttribute('href', '/projects/bikreta');
+  });
+
+  it('renders a full case study page with sections, links and page metadata', async () => {
+    mockFetch();
+    renderAt('/projects/drilled');
+
+    expect(await screen.findByRole('heading', { level: 1, name: 'Drilled' })).toBeInTheDocument();
+    for (const name of ['Overview', 'The challenge', 'How I built it', 'What I built', 'Under the hood', 'The result']) {
+      expect(screen.getByRole('heading', { level: 2, name })).toBeInTheDocument();
+    }
+    expect(screen.getByRole('link', { name: /visit live site/i })).toHaveAttribute('href', 'https://drilled-74880.web.app/');
+    expect(screen.getByRole('link', { name: /api code/i })).toHaveAttribute(
+      'href',
+      'https://github.com/juhayeraiaz/drilled-server',
+    );
+    expect(document.title).toMatch(/^Drilled case study/);
+    // Navigation goes back to the home page sections from here.
+    const nav = screen.getByRole('navigation', { name: 'Primary' });
+    expect(within(nav).getByRole('link', { name: 'Projects' })).toHaveAttribute('href', '/#projects');
+    expect(screen.getByRole('navigation', { name: 'More case studies' })).toBeInTheDocument();
+  });
+
+  it('shows the 404 page for an unknown case study', async () => {
+    mockFetch();
+    renderAt('/projects/not-a-project');
+    expect(await screen.findByRole('heading', { name: /wandered off/i })).toBeInTheDocument();
+  });
+});

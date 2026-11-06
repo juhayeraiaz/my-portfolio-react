@@ -106,6 +106,11 @@ export const isMac = typeof navigator !== 'undefined' && /mac|iphone|ipad|ipod/i
 /** Smooth-scrolls to a section and moves focus there for keyboard and screen-reader users. */
 export function scrollToSection(id) {
   const target = id ? document.getElementById(id) : null;
+  if (id && !target && window.location.pathname !== '/') {
+    // The section lives on the home page (e.g. when called from a case study).
+    window.location.assign(`/#${id}`);
+    return;
+  }
   if (!target) {
     window.scrollTo({ top: 0, behavior: 'smooth' });
     return;

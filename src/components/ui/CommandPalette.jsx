@@ -1,5 +1,19 @@
 import { useEffect, useId, useMemo, useRef, useState } from 'react';
-import { LuArrowUp, LuCode, LuCopy, LuCornerDownLeft, LuFileText, LuHash, LuMail, LuMoon, LuSearch, LuSun } from 'react-icons/lu';
+import {
+  LuArrowUp,
+  LuBookOpen,
+  LuCode,
+  LuCopy,
+  LuCornerDownLeft,
+  LuFileText,
+  LuHash,
+  LuMail,
+  LuMoon,
+  LuSearch,
+  LuSun,
+} from 'react-icons/lu';
+import { useNavigate } from 'react-router-dom';
+import { caseStudies } from '../../data/caseStudies';
 import { navLinks, profile, socials } from '../../data/portfolio';
 import { useTheme } from '../../hooks/useTheme';
 import { toast } from '../../lib/toast';
@@ -8,6 +22,7 @@ import './CommandPalette.css';
 
 function useCommands() {
   const { theme, toggleTheme } = useTheme();
+  const navigate = useNavigate();
 
   return useMemo(
     () => [
@@ -26,6 +41,15 @@ function useCommands() {
         icon: LuArrowUp,
         run: () => scrollToSection(''),
       },
+      ...caseStudies.map((study) => ({
+        id: `case-${study.slug}`,
+        group: 'Case studies',
+        label: study.title,
+        hint: study.kind,
+        keywords: `case study project ${study.stack.join(' ')}`,
+        icon: LuBookOpen,
+        run: () => navigate(`/projects/${study.slug}`),
+      })),
       {
         id: 'theme',
         group: 'Actions',
@@ -86,7 +110,7 @@ function useCommands() {
         run: () => window.open(`https://github.com/${profile.githubUsername}/my-portfolio-react`, '_blank', 'noopener'),
       },
     ],
-    [theme, toggleTheme],
+    [theme, toggleTheme, navigate],
   );
 }
 

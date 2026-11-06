@@ -42,7 +42,7 @@ export function Projects({ projects, status, slow, retry }) {
           id="projects-title"
           eyebrow="Projects"
           title="Selected work"
-          lead="Recent projects I've designed and built end to end. Open any project for screenshots, details and links."
+          lead="Recent projects I've designed and built end to end. Read the case study behind each one, or open a project for screenshots and links."
         />
 
         {status === 'loading' && (

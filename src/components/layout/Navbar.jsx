@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 import { LuArrowUpRight, LuMenu, LuSearch, LuX } from 'react-icons/lu';
 import { navLinks, profile, socials } from '../../data/portfolio';
 import { useScrollSpy } from '../../hooks/useScrollSpy';
 import { cx, isMac } from '../../lib/utils';
 import { Logo } from '../ui/Logo';
+import { SectionLink } from '../ui/SectionLink';
 import { ThemeToggle } from '../ui/ThemeToggle';
 import './Navbar.css';
 
@@ -15,6 +17,7 @@ export function Navbar({ onOpenPalette }) {
   const progressRef = useRef(null);
   const toggleRef = useRef(null);
   const active = useScrollSpy(sectionIds);
+  const onHome = useLocation().pathname === '/';
 
   // Scroll state + reading-progress bar (updated outside React for smoothness).
   useEffect(() => {
@@ -70,20 +73,20 @@ export function Navbar({ onOpenPalette }) {
         Skip to content
       </a>
       <nav className="navbar__inner container" aria-label="Primary">
-        <a href="#top" className="navbar__brand" aria-label={`${profile.name} — back to top`} onClick={closeMenu}>
+        <SectionLink id="top" className="navbar__brand" aria-label={`${profile.name} — ${onHome ? 'back to top' : 'home'}`} onClick={closeMenu}>
           <Logo />
-        </a>
+        </SectionLink>
 
         <ul className="navbar__links" role="list">
           {navLinks.map((link) => (
             <li key={link.id}>
-              <a
-                href={`#${link.id}`}
+              <SectionLink
+                id={link.id}
                 className={cx('navbar__link', active === link.id && 'is-active')}
                 aria-current={active === link.id ? 'location' : undefined}
               >
                 {link.label}
-              </a>
+              </SectionLink>
             </li>
           ))}
         </ul>
@@ -97,9 +100,9 @@ export function Navbar({ onOpenPalette }) {
             </kbd>
           </button>
           <ThemeToggle />
-          <a href="#contact" className="btn btn--primary btn--sm navbar__cta">
+          <SectionLink id="contact" className="btn btn--primary btn--sm navbar__cta">
             Let&apos;s talk
-          </a>
+          </SectionLink>
           <button
             ref={toggleRef}
             type="button"
@@ -119,14 +122,14 @@ export function Navbar({ onOpenPalette }) {
           <ul className="mobile-menu__links" role="list">
             {navLinks.map((link, index) => (
               <li key={link.id} style={{ '--i': index }}>
-                <a
-                  href={`#${link.id}`}
+                <SectionLink
+                  id={link.id}
                   className={cx('mobile-menu__link', active === link.id && 'is-active')}
                   onClick={closeMenu}
                 >
                   <span className="mobile-menu__index mono">0{index + 1}</span>
                   {link.label}
-                </a>
+                </SectionLink>
               </li>
             ))}
           </ul>

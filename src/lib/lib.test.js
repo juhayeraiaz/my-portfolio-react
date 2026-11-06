@@ -88,3 +88,40 @@ describe('timeAgo', () => {
     expect(timeAgo('not a date', now)).toBe('');
   });
 });
+
+describe('case studies', () => {
+  it('has complete, uniquely-slugged entries', async () => {
+    const { caseStudies } = await import('../data/caseStudies');
+    const slugs = caseStudies.map((study) => study.slug);
+    expect(new Set(slugs).size).toBe(slugs.length);
+    for (const study of caseStudies) {
+      for (const key of ['title', 'kind', 'type', 'year', 'status', 'role', 'summary', 'overview', 'challenge', 'outcome']) {
+        expect(study[key], `${study.slug}.${key}`).toBeTruthy();
+      }
+      expect(study.approach.length).toBeGreaterThan(1);
+      expect(study.features.length).toBeGreaterThan(1);
+      expect(study.stack.length).toBeGreaterThan(0);
+      expect(safeUrl(study.liveUrl)).toBeTruthy();
+    }
+  });
+
+  it('matches API projects to case studies by title', async () => {
+    const { findCaseStudy, slugify } = await import('../data/caseStudies');
+    expect(slugify('Abdullah Shoe – E-commerce Website')).toBe('abdullah-shoe-e-commerce-website');
+    expect(findCaseStudy({ title: 'Abdullah Shoe – E-commerce Website' })?.slug).toBe('abdullah-shoe');
+    expect(findCaseStudy({ title: 'Rent a House' })?.slug).toBe('rent-a-house');
+    expect(findCaseStudy({ title: 'Bikreta Store' })?.slug).toBe('bikreta');
+    expect(findCaseStudy({ title: 'Drilledness' })).toBeNull();
+    expect(findCaseStudy({ title: 'Something new' })).toBeNull();
+  });
+});
+
+describe('normalizeProjects links', () => {
+  it('drops a "code" link that just repeats the live site', () => {
+    const [project] = normalizeProjects([
+      { _id: 'a', title: 'Client site', siteLink: 'https://shop.example.com/', codeLink: 'https://shop.example.com' },
+    ]);
+    expect(project.siteLink).toBe('https://shop.example.com/');
+    expect(project.codeLink).toBe('');
+  });
+});

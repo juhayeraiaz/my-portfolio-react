@@ -6,6 +6,8 @@ import NotFound from './pages/NotFound';
 
 // The admin tool is only used locally, so keep it out of the main bundle.
 const AddProject = lazy(() => import('./pages/AddProject'));
+// Case studies load on demand, keeping the home page bundle lean.
+const CaseStudy = lazy(() => import('./pages/CaseStudy'));
 
 export default function App() {
   return (
@@ -13,6 +15,7 @@ export default function App() {
       <Suspense fallback={null}>
         <Routes>
           <Route path="/" element={<Home />} />
+          <Route path="/projects/:slug" element={<CaseStudy />} />
           <Route path="/addprojects" element={<AddProject />} />
           <Route path="*" element={<NotFound />} />
         </Routes>

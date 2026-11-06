@@ -11,6 +11,9 @@ afterEach(() => {
 });
 
 // jsdom gaps -----------------------------------------------------------------
+// jsdom's scrollTo only logs "not implemented".
+window.scrollTo = () => {};
+
 if (!window.matchMedia) {
   const noop = () => {};
   window.matchMedia = (query) => ({

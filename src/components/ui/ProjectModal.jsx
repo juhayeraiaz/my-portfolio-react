@@ -1,6 +1,8 @@
 import { useEffect, useRef, useState } from 'react';
-import { LuArrowUpRight, LuCalendar, LuChevronLeft, LuChevronRight, LuX } from 'react-icons/lu';
+import { LuArrowRight, LuArrowUpRight, LuCalendar, LuChevronLeft, LuChevronRight, LuX } from 'react-icons/lu';
 import { SiGithub } from 'react-icons/si';
+import { Link } from 'react-router-dom';
+import { findCaseStudy } from '../../data/caseStudies';
 import { cx } from '../../lib/utils';
 import { ProjectPlaceholder } from './ProjectCard';
 import './ProjectModal.css';
@@ -11,6 +13,7 @@ export function ProjectModal({ project, onClose }) {
   const [index, setIndex] = useState(0);
   const { title, description, date, siteLink, codeLink, images } = project;
   const hasGallery = images.length > 1;
+  const study = findCaseStudy(project);
 
   useEffect(() => {
     const dialog = dialogRef.current;
@@ -103,10 +106,20 @@ export function ProjectModal({ project, onClose }) {
             {title}
           </h2>
           {description && <p className="modal__description">{description}</p>}
-          {(siteLink || codeLink) && (
+          {(study || siteLink || codeLink) && (
             <div className="modal__actions">
+              {study && (
+                <Link className="btn btn--primary" to={`/projects/${study.slug}`}>
+                  Read the case study <LuArrowRight aria-hidden="true" />
+                </Link>
+              )}
               {siteLink && (
-                <a className="btn btn--primary" href={siteLink} target="_blank" rel="noopener noreferrer">
+                <a
+                  className={`btn ${study ? 'btn--ghost' : 'btn--primary'}`}
+                  href={siteLink}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
                   Visit live site <LuArrowUpRight className="btn__arrow--diag" aria-hidden="true" />
                 </a>
               )}

@@ -13,6 +13,8 @@ export function parseProjectDate(value) {
   return Date.parse(value);
 }
 
+const sameUrl = (a, b) => Boolean(a && b) && a.replace(/\/+$/, '') === b.replace(/\/+$/, '');
+
 /** MongoDB ObjectIds embed their creation time in the first 4 bytes. */
 function objectIdTime(id) {
   return typeof id === 'string' && /^[a-f\d]{24}$/i.test(id) ? parseInt(id.slice(0, 8), 16) * 1000 : NaN;
@@ -25,12 +27,15 @@ export function normalizeProjects(raw) {
     .filter((item) => item && typeof item.title === 'string' && item.title.trim())
     .map((item, order) => {
       const time = [parseProjectDate(item.date), objectIdTime(item._id)].find(Number.isFinite) ?? 0;
+      const siteLink = safeUrl(item.siteLink);
+      const codeLink = safeUrl(item.codeLink);
       return {
         id: String(item._id ?? `${item.title}-${order}`),
         title: item.title.trim(),
         description: typeof item.description === 'string' ? item.description.trim() : '',
-        siteLink: safeUrl(item.siteLink),
-        codeLink: safeUrl(item.codeLink),
+        siteLink,
+        // Client sites often repeat the live URL as "code": don't show a Code button for it.
+        codeLink: codeLink && sameUrl(codeLink, siteLink) ? '' : codeLink,
         date: typeof item.date === 'string' ? item.date : '',
         time,
         order,

@@ -2,6 +2,7 @@ import { LuArrowUp } from 'react-icons/lu';
 import { navLinks, profile, socials } from '../../data/portfolio';
 import { isMac } from '../../lib/utils';
 import { Logo } from '../ui/Logo';
+import { SectionLink } from '../ui/SectionLink';
 import './Footer.css';
 
 export function Footer({ onOpenPalette }) {
@@ -21,7 +22,7 @@ export function Footer({ onOpenPalette }) {
             <ul role="list">
               {navLinks.map((link) => (
                 <li key={link.id}>
-                  <a href={`#${link.id}`}>{link.label}</a>
+                  <SectionLink id={link.id}>{link.label}</SectionLink>
                 </li>
               ))}
             </ul>

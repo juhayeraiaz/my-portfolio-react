@@ -1,6 +1,8 @@
 import { useState } from 'react';
-import { LuArrowUpRight, LuImages, LuMaximize2 } from 'react-icons/lu';
+import { LuArrowRight, LuArrowUpRight, LuImages, LuMaximize2 } from 'react-icons/lu';
 import { SiGithub } from 'react-icons/si';
+import { Link } from 'react-router-dom';
+import { findCaseStudy } from '../../data/caseStudies';
 import { trackPointer } from '../../lib/utils';
 
 export function ProjectPlaceholder({ title }) {
@@ -15,6 +17,7 @@ export function ProjectCard({ project, onOpen }) {
   const { title, description, date, siteLink, codeLink, images } = project;
   const [imageFailed, setImageFailed] = useState(false);
   const cover = !imageFailed && images[0];
+  const study = findCaseStudy(project);
 
   return (
     <article className="project-card card spotlight" onPointerMove={trackPointer}>
@@ -56,18 +59,37 @@ export function ProjectCard({ project, onOpen }) {
 
         {description && <p className="project-card__description">{description}</p>}
 
-        {(siteLink || codeLink) && (
+        {(study || siteLink || codeLink) && (
           <div className="project-card__actions">
+            {study && (
+              <Link className="btn btn--primary btn--sm" to={`/projects/${study.slug}`}>
+                Case study <LuArrowRight aria-hidden="true" />
+                <span className="visually-hidden"> of {title}</span>
+              </Link>
+            )}
             {siteLink && (
-              <a className="btn btn--primary btn--sm" href={siteLink} target="_blank" rel="noopener noreferrer">
+              <a
+                className={`btn ${study ? 'btn--ghost' : 'btn--primary'} btn--sm`}
+                href={siteLink}
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 Live demo <LuArrowUpRight className="btn__arrow--diag" aria-hidden="true" />
                 <span className="visually-hidden"> of {title} (opens in a new tab)</span>
               </a>
             )}
             {codeLink && (
-              <a className="btn btn--ghost btn--sm" href={codeLink} target="_blank" rel="noopener noreferrer">
-                <SiGithub aria-hidden="true" /> Code
-                <span className="visually-hidden"> for {title} (opens in a new tab)</span>
+              <a
+                className={`btn btn--ghost btn--sm${study ? ' project-card__icon-btn' : ''}`}
+                href={codeLink}
+                target="_blank"
+                rel="noopener noreferrer"
+                title={study ? 'Source code' : undefined}
+              >
+                <SiGithub aria-hidden="true" /> {!study && 'Code'}
+                <span className="visually-hidden">
+                  {study ? 'Code' : ''} for {title} (opens in a new tab)
+                </span>
               </a>
             )}
           </div>
